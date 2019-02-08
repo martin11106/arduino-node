@@ -1,27 +1,38 @@
-var express=require('express')
-var aplicacion=express()
+var express = require('express')
+var app = express()
+const net = require('net')
+const server = require('http').Server(app)
+const socket = require('socket.io')(server)
+const os = require('os')
 
-const net =require('net')
-const serve=require('http').Server(aplicacion)
-const socket=require('socket.io')(serve)
+var interfaces = os.networkInterfaces();
+var ipdinamica;
 
-var HOST="192.168.43.165"
-var PORT=15000
+for(var i in interfaces){
+    for(var k in interfaces[i]){
+        var address = interfaces[i][k]
+        if (address.family == 'IPv4' && !address.internal) {
+            ipdinamica = address.address.toString('utf8');
+            console.log(ipdinamica);
+        }
+    }
+}
 
-serve.listen(PORT ,function () {
-    console.log('servidor'+PORT+"host"+HOST)
-})
-var ser=net.createServer(function(socket){
-   socket.on('connection',function(){
-       console.log('usuario nuevo'+socket.remoteAddress+' '+socket.handshake.PORT)
-   })   
-    socket.on('data',function(data){
-        console.log(Buffer.from(data, 'hex').toString('utf8'))
+//var HOST = 'node-socket-servidor.herokuapp.com';
+var PORT = process.env.PORT || 39584;
+
+// socket.listen(PORT, function(){
+//     console.log('servidor activo'+ PORT + ':' + HOST)
+// })
+
+var ser = net.createServer(function(so){
+        console.log('Usuario conectado en el puerto: ', PORT)
+    so.on('data', function(data){
+        console.log(data.toString('utf8'))
     })
-    socket.on('close',function(){
-        console.log('usuario desconectado')
+    so.on('close', function(){
+        console.log('Usuario desconectado')
     })
-})
-ser.listen(PORT,HOST)
+});
 
-console.log('hola node')
+ser.listen(PORT);
