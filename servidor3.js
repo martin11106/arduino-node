@@ -19,7 +19,7 @@ for(var i in interfaces){
 }
 
 //var HOST = 'node-socket-servidor.herokuapp.com';
-var PORT = 3000;
+var PORT = 5000;
 
 // socket.listen(PORT, function(){
 //     console.log('servidor activo'+ PORT + ':' + HOST)
