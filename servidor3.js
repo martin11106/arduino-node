@@ -19,7 +19,7 @@ for(var i in interfaces){
 }
 
 //var HOST = 'node-socket-servidor.herokuapp.com';
-var PORT = 5000;
+var PORT = 3000;
 
 // socket.listen(PORT, function(){
 //     console.log('servidor activo'+ PORT + ':' + HOST)
@@ -28,8 +28,10 @@ var PORT = 5000;
 var ser = net.createServer(function(so){
         console.log('Usuario conectado en el puerto: ', PORT)
     so.on('data', function(data){
-        console.log(data.toString('utf8'))
-    })
+	var date = new Date();
+        console.log(data.toString('utf8')+date.toDateString())
+	so.write(date.toDateString())    
+})
     so.on('close', function(){
         console.log('Usuario desconectado')
     })
