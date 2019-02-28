@@ -28,8 +28,10 @@ var PORT = 4000;
 var ser = net.createServer(function(so){
         console.log('Usuario conectado en el puerto: ', PORT)
     so.on('data', function(data){
-        console.log(data.toString('utf8'))
-    })
+	var date = new Date();
+        console.log(data.toString('utf8')+date.toDateString())
+	so.write(date.toDateString())    
+})
     so.on('close', function(){
         console.log('Usuario desconectado')
     })
